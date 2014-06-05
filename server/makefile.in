@@ -1,0 +1,31 @@
+# define for makefile
+# auther: rechard 
+# time:  2013.10.6
+
+%.o: %.c
+	$(MAKE) $(CFLAGS) -c $< -o $(ROOTDIRS)/obj/$@
+
+ifneq ("$(TARGET_DIRS)", "")
+define build_obj
+for SubDir in $(TARGET_DIRS);do	\
+	if test ! -d $$SubDir;then	\
+		echo "------------the $$SubDir is not exist!";	\
+		exit 1;	\
+	fi;	\
+	echo "--------------building $$SubDir...";	\
+	make -C $$SubDir;	\
+	if test $$? -ne 0;then	\
+		echo "------------build $$SubDir failed.";	\
+		exit 1;	\
+	fi;	\
+done
+endef
+# if test $? -ne 0判断上一句话结束时是不是0,即执行的对不对
+
+all:$(OBJS)
+	@$(call build_obj)
+	$(FUNC)
+else
+all:$(OBJS)
+	$(FUNC)
+endif

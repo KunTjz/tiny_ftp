@@ -1,0 +1,7 @@
+# define for makefile
+# auther: rechard 
+# time:  2013.10.6
+MAKE = g++
+CFLAGS = -Wall -g -O3
+
+

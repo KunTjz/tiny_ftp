@@ -1,0 +1,3 @@
+Wed Jun  4 21:13:20 2014	LOG_DEBUG	worker thread:2956778352, 1 start, init_count:3
+Wed Jun  4 21:13:20 2014	LOG_DEBUG	worker thread:2948385648, 2 start, init_count:3
+Wed Jun  4 21:13:20 2014	LOG_DEBUG	worker thread:2965171056, 0 start, init_count:3

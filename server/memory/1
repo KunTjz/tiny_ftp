@@ -1,0 +1,68 @@
+#ifndef __TFTP_CONNECTION_H__
+#define __TFTP_CONNECTION_H__
+
+#include "../thread/tftp_thread.h"
+
+enum {
+	TFTP_READ_COMMAND = 0,
+	TFTP_PARSE_COMMAND,
+	TFTP_SEND_DATA,
+	TFTP_UPLOAD_FILE,
+	TFTP_DOWNLOAD_FILE
+};
+
+
+#define DEFAULT_CMD_RD_BUF_SIZE 	1024
+#define	DEFAULT_DATA_WT_BUF_SIZE	2048	
+#define MAX_PATH_LINE				1024
+
+typedef struct connection{
+	int 			cmd_fd;
+	int 			data_fd;
+	worker_thread*  thd;
+
+	char			current_path[MAX_PATH_LEN];	
+	int				state;
+
+	char*			cmd_rd_buf;
+	unsigned int    cmd_rd_total;
+	unsigned int 	cmd_rd_curr;
+	unsigned int 	cmd_rd_parsed;
+
+//	char*			cmd_wt_buf;
+	char*			data_rd_buf;
+	unsigned int	data_rd_total;
+	unsigned int	data_rd_curr;
+	unsigned int	data_rd_parsed;
+
+	char*			data_wt_buf;
+	unsigned int	data_wt_total;
+	unsigned int	data_wt_curr;
+	unsigned int	data_wt_writed;	
+	
+	//unsigned int	cmd_rd_size;
+	//unsigned int	cmd_wt_size;
+	//unsigned int 	data_rd_size;
+	//unsigned int	data_wt_size;
+	
+	struct connection*		next;
+}conn_item;
+
+typedef struct {
+	conn_item* head;
+	conn_item* tail;
+	unsigned int size;
+}connection_queue;
+
+#define TFTP_CMD_NEW_CONN	'c'
+
+typedef struct {
+	char cmd;
+	int	cmd_fd;
+	int data_fd;
+}tftp_cmd;
+
+conn_item* get_conn_item();
+void free_conn_item(conn_item* item);
+
+#endif
